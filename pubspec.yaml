@@ -37,6 +37,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   http:
   image_downloader: ^0.31.0
+  fluttertoast:
 
 dev_dependencies:
   flutter_test:

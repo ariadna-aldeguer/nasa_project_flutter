@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/material.dart';
-import 'package:project/widgets/loginPage.dart';
+import 'package:project/widgets/bottomNavigation.dart';
+import 'package:project/apiService/ApiService.dart';
 
 
 class LoginPage extends StatefulWidget {
@@ -11,6 +11,11 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+
+  final ApiService apiService = ApiService();
+  var _user = TextEditingController();
+  var _pass = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -48,22 +53,34 @@ class _LoginPageState extends State<LoginPage> {
                         TextFormField(
                           decoration:
                               const InputDecoration(labelText: "Usuari"),
+                          controller: _user,
                         ),
                         TextFormField(
                           decoration:
                               const InputDecoration(labelText: "Contrasenya"),
+                          controller: _pass,
                           obscureText: true,
                         ),
                         Padding(
                           padding: const EdgeInsets.only(top: 20),
                           child: ElevatedButton(
                                 child: const Text('Go in ->'),
-                                onPressed: () {
+                                onPressed: () async {
+                                  print(_user.text);
+                                  bool canLog = await apiService.login(this._user.text, this._pass.text);
+                                  print(canLog);
+                                  if(canLog){
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => const BottomNavigation()),
+                                    );
+                                  } 
                                   Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => const BottomNavigation()),
-                                  );
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => const BottomNavigation()),
+                                    );
                                 },
                             ),
                           
