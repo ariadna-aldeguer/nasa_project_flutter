@@ -29,7 +29,8 @@ class _BottomNavigation extends State<BottomNavigation> {
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static const List<Widget> _widgetOptions = <Widget>[
     DetailPage(),
-    ListPage()
+    ListPage(tipo: 'list'),
+    ListPage(tipo: 'favorite')
   ];
 
   void _onItemTapped(int index) {
@@ -61,7 +62,7 @@ class _BottomNavigation extends State<BottomNavigation> {
             backgroundColor: Colors.black,
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.school),
+            icon: Icon(Icons.favorite_border),
             label: 'School',
             backgroundColor: Colors.black,
           ),

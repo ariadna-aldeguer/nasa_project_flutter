@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:project/widgets/bottomNavigation.dart';
 import 'package:project/apiService/ApiService.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 
 class LoginPage extends StatefulWidget {
@@ -13,11 +14,16 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
 
   final ApiService apiService = ApiService();
-  var _user = TextEditingController();
+      var _user = TextEditingController();
   var _pass = TextEditingController();
+
 
   @override
   Widget build(BuildContext context) {
+
+
+  _user.text = "cf20ariadna.aldeguer";
+  _pass.text = "123456";
     return SingleChildScrollView(
             child: Stack(
               children: [
@@ -66,9 +72,7 @@ class _LoginPageState extends State<LoginPage> {
                           child: ElevatedButton(
                                 child: const Text('Go in ->'),
                                 onPressed: () async {
-                                  print(_user.text);
                                   bool canLog = await apiService.login(this._user.text, this._pass.text);
-                                  print(canLog);
                                   if(canLog){
                                     Navigator.push(
                                       context,
@@ -76,11 +80,6 @@ class _LoginPageState extends State<LoginPage> {
                                           builder: (context) => const BottomNavigation()),
                                     );
                                   } 
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => const BottomNavigation()),
-                                    );
                                 },
                             ),
                           

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:project/apiService/ApiService.dart';
 import 'package:project/model/apod.dart';
 import 'package:project/widgets/detailWidget.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class DetailPage extends StatefulWidget {
   const DetailPage({Key? key}) : super(key: key);
@@ -15,6 +16,7 @@ class _DetailPageState extends State<DetailPage> {
   final ApiService apiService = ApiService();
   @override
   Widget build(BuildContext context) {
+    // getId();
     return MaterialApp(
       title: 'Fetch Data Example',
       home: Scaffold(
@@ -42,6 +44,11 @@ class _DetailPageState extends State<DetailPage> {
   }
 }
 
+  // getId() async {
+  //   final prefs = await SharedPreferences.getInstance();
+  //   final String? id = prefs.getString('id');
+  //   print(id);
+  // }
 
 //Listado
 // class _DetailPageState extends State<DetailPage> {

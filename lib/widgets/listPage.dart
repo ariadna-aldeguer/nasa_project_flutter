@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:project/apiService/ApiService.dart';
 import 'package:project/model/apod.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'detailPage.dart';
 
 class ListPage extends StatefulWidget {
-  const ListPage({Key? key}) : super(key: key);
+  final String tipo; 
+  const ListPage({Key? key, required this.tipo}) : super(key: key);
 
   @override
   _ListPageState createState() => _ListPageState();
@@ -20,39 +22,38 @@ class _ListPageState extends State<ListPage> {
       home: Scaffold(
         body: Center(
           child: FutureBuilder<List<Apod>>(
-            future: apiService.getList(),
+            future: apiService.getList(widget.tipo),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 return ListView.builder(
                   itemCount: snapshot.data!.length,
-                  itemBuilder: (_, index) => Container(
-                    child: Container(
-                      margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                      padding: EdgeInsets.all(20.0),
-                      decoration: BoxDecoration(
-                        color: Color(0xff97FFFF),
-                        borderRadius: BorderRadius.circular(15.0),
-                      ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "${snapshot.data![index].title}",
-                            style: TextStyle(
-                              fontSize: 18.0,
-                              fontWeight: FontWeight.bold,
+                  itemBuilder: (_, index) => Card(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                         ListTile(
+                          leading: ElevatedButton(
+                             onPressed: () {
+                               onClick(
+                              snapshot.data![index].date,
+                              snapshot.data![index].explanation,
+                              snapshot.data![index].title,
+                              snapshot.data![index].url,
+                              snapshot.data![index].copyright
+                            );
+                            },
+                            child: const Icon(Icons.favorite_border),
                             ),
-                          ),
-                          SizedBox(height: 10),
-                          Text("${snapshot.data![index].explanation}"),
-                        ],
-                      ),
-                    ),
+                          trailing: Image.network(snapshot.data![index].url),
+                          title: Text(snapshot.data![index].title),
+                          subtitle: Text(snapshot.data![index].explanation),
+                        )
+                      ]
+                    )
                   ),
                 );
               } else {
-                return Center(child: CircularProgressIndicator());
+                return const Center(child: CircularProgressIndicator());
               }
             },
           ),
@@ -60,4 +61,10 @@ class _ListPageState extends State<ListPage> {
       ),
     );
   }
+
+  onClick(String date, String explanation, String title, String url, String copyright){
+    print("hola");
+    apiService.saveFavorite(date, explanation, title, url, copyright);
+  }
 }
+

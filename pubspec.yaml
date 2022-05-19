@@ -38,6 +38,7 @@ dependencies:
   http:
   image_downloader: ^0.31.0
   fluttertoast:
+  shared_preferences:
 
 dev_dependencies:
   flutter_test:
